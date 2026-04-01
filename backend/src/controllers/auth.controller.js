@@ -101,6 +101,9 @@ export async function LoginAuth(req, res) {
 export function LogoutAuth(req, res) {
   try {
     res.cookie("jwt", "", {
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax",
       maxAge: 0,
     });
     res.status(200).json({
@@ -149,7 +152,12 @@ export async function checkAuth(req, res) {
   try {
     const user = await User.findById(req.user._id).select("-password");
 
-    res.status(200).json(user._id, user.fullName, user.email, user.profilePic);
+    res.status(200).json({
+      _id: user._id,
+      fullName: user.fullName,
+      email: user.email,
+      profilePic: user.profilePic,
+    });
   } catch (error) {
     console.log("Error in checkAuth", error.message);
     res.status(500).json({

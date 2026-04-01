@@ -37,6 +37,12 @@ const SignUpPage = () => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const success = validateForm();
+
+    if (success) {
+      SignUp(formData);
+    }
   };
 
   return (
@@ -140,7 +146,6 @@ const SignUpPage = () => {
       {/* 
       Right Side
       */}
-
       <AuthImagePattern
         title="Join Our Community"
         subtitle="Connect with Fiends, share Moments, and stay in touch with you"
