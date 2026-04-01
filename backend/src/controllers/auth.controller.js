@@ -59,7 +59,6 @@ export async function SignUpAuth(req, res) {
 
 export async function LoginAuth(req, res) {
   const { email, password } = req.body;
-
   try {
     if (!email || !password) {
       return res.status(400).json({
@@ -137,10 +136,7 @@ export async function UpdateAuth(req, res) {
       { new: true },
     );
 
-    res.status(200).json({
-      message: "Updated User",
-      user: updatedUser,
-    });
+    res.status(200).json(updatedUser);
   } catch (error) {
     console.log("Error in UpdateAuth", error.message);
     res.status(500).json({
@@ -151,13 +147,9 @@ export async function UpdateAuth(req, res) {
 
 export async function checkAuth(req, res) {
   try {
-
     const user = await User.findById(req.user._id).select("-password");
 
-    res.status(200).json({
-      message: "User is Authenticated",
-      user: user,
-    });
+    res.status(200).json(user._id, user.fullName, user.email, user.profilePic);
   } catch (error) {
     console.log("Error in checkAuth", error.message);
     res.status(500).json({
